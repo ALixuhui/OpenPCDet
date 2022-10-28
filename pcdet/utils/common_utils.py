@@ -4,7 +4,7 @@ import pickle
 import random
 import shutil
 import subprocess
-import SharedArray
+# import SharedArray
 
 import numpy as np
 import torch
@@ -48,7 +48,7 @@ def rotate_points_along_z(points, angle):
     zeros = angle.new_zeros(points.shape[0])
     ones = angle.new_ones(points.shape[0])
     rot_matrix = torch.stack((
-        cosa,  sina, zeros,
+        cosa, sina, zeros,
         -sina, cosa, zeros,
         zeros, zeros, ones
     ), dim=1).view(-1, 3, 3).float()
@@ -252,15 +252,16 @@ def generate_voxel2pinds(sparse_tensor):
     return v2pinds_tensor
 
 
-def sa_create(name, var):
-    x = SharedArray.create(name, var.shape, dtype=var.dtype)
-    x[...] = var[...]
-    x.flags.writeable = False
-    return x
+# def sa_create(name, var):
+#     x = SharedArray.create(name, var.shape, dtype=var.dtype)
+#     x[...] = var[...]
+#     x.flags.writeable = False
+#     return x
 
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""
+
     def __init__(self):
         self.reset()
 
