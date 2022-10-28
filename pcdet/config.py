@@ -48,9 +48,10 @@ def cfg_from_list(cfg_list, config):
             d[subkey] = value
 
 
-def merge_new_config(config, new_config):
+def merge_new_config(config, new_config, cfg_base_file):
     if '_BASE_CONFIG_' in new_config:
-        with open(new_config['_BASE_CONFIG_'], 'r') as f:
+#        with open(new_config['_BASE_CONFIG_'], 'r') as f:
+        with open(cfg_base_file, 'r') as f:
             try:
                 yaml_config = yaml.safe_load(f, Loader=yaml.FullLoader)
             except:
@@ -63,19 +64,19 @@ def merge_new_config(config, new_config):
             continue
         if key not in config:
             config[key] = EasyDict()
-        merge_new_config(config[key], val)
+        merge_new_config(config[key], val,cfg_base_file)
 
     return config
 
 
-def cfg_from_yaml_file(cfg_file, config):
+def cfg_from_yaml_file(cfg_file, config, cfg_base_file):
     with open(cfg_file, 'r') as f:
         try:
             new_config = yaml.safe_load(f, Loader=yaml.FullLoader)
         except:
             new_config = yaml.safe_load(f)
 
-        merge_new_config(config=config, new_config=new_config)
+        merge_new_config(config=config, new_config=new_config, cfg_base_file=cfg_base_file)
 
     return config
 
